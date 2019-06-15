@@ -1,0 +1,27 @@
+start: external "module" module_name inout_par main "endmodule"
+
+module_name: WORD
+// module_name: ("a".."z" | "0".."9" | "A".."Z")+
+
+inout_par : "(" list_ports ");"
+port      :(input|output)
+
+list_ports: port ("," port)*
+input : "input"  (ARRAY_EXPRESSION)* WORD
+output: "output" (ARRAY_EXPRESSION)* WORD
+
+ARRAY_EXPRESSION: "[" SIGNED_NUMBER ":" SIGNED_NUMBER "]"
+
+
+exp     : (WORD | SIGNED_NUMBER | ";")*
+
+external: exp
+main    : exp
+
+%import common.WORD
+%import common.SIGNED_NUMBER
+%import common.WS
+%ignore WS
+
+COMMENT: "//" /[^\n]/*
+%ignore COMMENT
