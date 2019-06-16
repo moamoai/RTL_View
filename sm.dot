@@ -1,0 +1,15 @@
+
+digraph finite_state_machine {
+//	rankdir=LR;
+	rankdir=TB;
+	size="8,5"
+//	node [shape = doublecircle]; LR_0 LR_3 LR_4 LR_8;
+	node [shape = doublecircle]; NORMAL;
+	node [shape = circle];
+	NORMAL   -> IF_TRUE  [ label = "ifdef true" ];
+	NORMAL   -> IF_FALSE [ label = "ifdef false" ];
+	IF_TRUE  -> EL_FALSE [ label = "else" ];
+	IF_FALSE -> EL_TRUE  [ label = "else" ];
+	EL_TRUE  -> NORMAL   [ label = "endif" ];
+	EL_FALSE -> NORMAL   [ label = "endif" ];
+}
