@@ -44,6 +44,28 @@ MyTransformer().transform(tree)
 print(input_list)
 print(output_list)
 
+
+def print_inout_list(input_list):
+  for input in input_list:
+    a_list = []
+    for a in input:
+      type_in = a.type
+      val_in  = a.value
+      if(type_in=="ARRAY_EXPRESSION"):
+        a_list.append(val_in)
+      # elif(type_in=="WORD"):
+      elif(type_in=="INOUT_NAME"):
+        a_list.append(val_in)
+      elif(type_in=="INOUT_TYPE"):
+        a_list.append(val_in)
+    print(" ".join(["{0:25s}".format(x) for x in a_list]))
+
+print("######### INPUT ##########")
+print_inout_list(input_list)
+
+print("######### OUTPUT ##########")
+print_inout_list(output_list)
+
 # class TreeToJson(Transformer):
 #     def string(self, (s,)):
 #         return s[1:-1]

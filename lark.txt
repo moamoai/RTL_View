@@ -1,19 +1,27 @@
-start: external "module" module_name inout_par main "endmodule"
+start: external "module" module_name inout_par main "endmodule" external
 
-module_name: WORD
+// module_name: WORD
 // module_name: ("a".."z" | "0".."9" | "A".."Z")+
+NAME_RULE  : ("-" | "`" | "a".."z" | "0".."9" | "A".."Z" | "_")+
+INOUT_NAME : NAME_RULE
+module_name: NAME_RULE
 
 inout_par : "(" list_ports ");"
-port      :(input|output)
+port      : (input|output|COMMENT)
 
 list_ports: port ("," port)*
-input : "input"  (ARRAY_EXPRESSION)* WORD
-output: "output" (ARRAY_EXPRESSION)* WORD
+input : "input"  INOUT_TYPE* (ARRAY_EXPRESSION)* INOUT_NAME (ARRAY_EXPRESSION)*
+output: "output" INOUT_TYPE* (ARRAY_EXPRESSION)* INOUT_NAME (ARRAY_EXPRESSION)*
 
-ARRAY_EXPRESSION: "[" SIGNED_NUMBER ":" SIGNED_NUMBER "]"
+// ARRAY_EXPRESSION: "[" SIGNED_NUMBER ":" SIGNED_NUMBER "]"
+ARRAY_EXPRESSION: "[" SIGN_INDEX ":" SIGN_INDEX "]"
+SIGN_INDEX      : (SIGNED_NUMBER | NAME_RULE)
 
+INOUT_TYPE      : ("logic" | "reg " | "wire" | NAME_RULE)
 
-exp     : (WORD | SIGNED_NUMBER | ";")*
+symbol: ("!".."/" | "_" | "[" | "]" | ":".. "@" | "{".."~")+
+
+exp     : (WORD | SIGNED_NUMBER | "`" | symbol)*
 
 external: exp
 main    : exp

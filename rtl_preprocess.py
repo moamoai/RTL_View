@@ -21,8 +21,11 @@ for l in filetext.split("\n"):
   # line = line.split(" ")
   line = re.split(" +", l)
   line = [x for x in line if x]
+  # print(line)
   if  (line == []):
     l = ""
+  # elif(line[0] == "//"):
+  #   l = ""
   elif(state == "NORMAL"):
     if(line[0]=="`define"):
       define_list.append(line)
